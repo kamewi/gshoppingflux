@@ -9,7 +9,7 @@
  * @package GShoppingFlux
  * @copyright 2014-2025 Google Shopping Flux Contributors
  * @license Apache License 2.0
- * @version 1.7.6
+ * @version 1.7.7
  */
 
 if (!defined('_PS_VERSION_')) {
@@ -102,7 +102,7 @@ class GShoppingFlux extends Module
     {
         $this->name = 'gshoppingflux';
         $this->tab = 'smart_shopping';
-        $this->version = '1.7.6';
+        $this->version = '1.7.7';
         $this->author = 'Dim00z';
         $this->bootstrap = true;
 
@@ -3644,7 +3644,7 @@ class GShoppingFlux extends Module
             $title_crop .= ' ' . $product['size'];
         }
 
-        if (Tools::strlen(title_crop) > $title_limit) {
+        if (Tools::strlen($title_crop) > $title_limit) {
             $title_crop = Tools::substr($title_crop, 0, $title_limit - 1);
             $title_crop = Tools::substr($title_crop, 0, strrpos($title_crop, ' '));
         }
@@ -3747,8 +3747,14 @@ class GShoppingFlux extends Module
         $xml_googleshopping .= '<g:product_type><![CDATA[' . $product_type . ']]></g:product_type>' . "\n";
 
         // Matching Google category, or parent categories' one
-        $product['gcategory'] = $this->categories_values[$product['category_default']]['gcategory'];
-        $xml_googleshopping .= '<g:google_product_category><![CDATA[' . $product['gcategory'] . ']]></g:google_product_category>' . "\n";
+        if (
+            isset($product['category_default'])
+            && isset($this->categories_values[$product['category_default']])
+            && isset($this->categories_values[$product['category_default']]['gcategory'])
+        ) {
+            $product['gcategory'] = $this->categories_values[$product['category_default']]['gcategory'];
+            $xml_googleshopping .= '<g:google_product_category><![CDATA[' . $product['gcategory'] . ']]></g:google_product_category>' . "\n";
+        }
 
         // Product quantity & availability
         if (empty($this->categories_values[$product['category_default']]['gcat_avail'])) {
