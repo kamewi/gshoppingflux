@@ -3147,14 +3147,13 @@ class GShoppingFlux extends Module
 
         $sql = 'SELECT DISTINCT p.*, pl.*, ps.id_category_default as category_default, gc.export, glc.tax_included, gl.* '
             . 'FROM ' . _DB_PREFIX_ . 'product p '
-            . 'INNER JOIN ' . _DB_PREFIX_ . 'product_lang pl ON pl.id_product = p.id_product '
-            . 'INNER JOIN ' . _DB_PREFIX_ . 'product_shop ps ON ps.id_product = p.id_product '
-            . 'INNER JOIN ' . _DB_PREFIX_ . 'category c ON c.id_category = p.id_category_default '
-            . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux gc ON gc.id_gcategory = ps.id_category_default '
-            . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux_lc glc ON glc.`id_glang` = ' . $id_lang . ' '
-            . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux_lang gl ON gl.id_gcategory = ps.id_category_default '
-            . 'WHERE `p`.`price` >= 0 AND `c`.`active` = 1 AND `gc`.`export` = 1 '
-            . 'AND `pl`.`id_lang` = ' . $id_lang . ' AND `gl`.`id_lang` = ' . $id_lang;
+            . 'INNER JOIN ' . _DB_PREFIX_ . 'product_lang pl ON `pl`.`id_product` = `p`.`id_product` '
+            . 'INNER JOIN ' . _DB_PREFIX_ . 'product_shop ps ON `ps`.`id_product` = `p`.`id_product` '
+            . 'INNER JOIN ' . _DB_PREFIX_ . 'category c ON `c`.`id_category` = `p`.`id_category_default` '
+            . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux gc ON `gc`.`id_gcategory` = `ps`.`id_category_default` '
+            . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux_lc glc ON `pl`.`id_lang` = `glc`.`id_glang` '
+            . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux_lang gl  ON `gl`.`id_gcategory` = `ps`.`id_category_default` AND `pl`.`id_lang` = `gl`.`id_lang` '
+            . 'WHERE `p`.`price` >= 0 AND `c`.`active` = 1 AND `gc`.`export` = 1  AND `glc`.`id_glang` = ' . $id_lang;
 
         // Multishops filter
         if (Configuration::get('PS_MULTISHOP_FEATURE_ACTIVE') && count(Shop::getShops(true, null, true)) > 1) {
