@@ -1,0 +1,38 @@
+<?php
+
+global $_MODULE;
+$_MODULE = [];
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_b32b00665b88e4bbd8b4650997a31dda'] = ' Google Shopping Flux';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_b6e6fc6097a65ff1ad5f6188063e85b7'] = 'Exportiere Deine Produkte für das Google Merchant Center & Facebook';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_29de2b388c4dbba0f83de46d285d8a08'] = 'Google Category Beispiel > Google Sub-Category Beispiel';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_efc226b17e0532afff43be870bff0de7'] = 'Die Einstellungen wurden aktualisiert.';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_8b024bfb59bcbfcbae1bb593eb43d963'] = 'Die Einstellungen für den folgenden Shop konnten nicht gespeichert werden: %s';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_ea4e267b5f96c170f275f9b59713d185'] = 'Google Kategorie aktualisiert';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_87d54e1619c728ba9af47afee4cde3f0'] = 'Die ausgewählten Währungen für die Sprache wurden gespeichert.';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_16ea963e0abfdc9b7cd6c08b67dc4332'] = 'Die ausgewählte Währung für die Sprache wurde gespeichert.';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_5e3903117d4a7f01eb5efd86f5053e47'] = 'Produkte exportiert';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_51413bd72a85313bc087989f4e69c2f3'] = 'Produkte mit Attributen';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_669f01a27b5b4dc48f10d9d548b1ea71'] = 'Attribut Kombinationen / Varianten';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_96b0141273eabab320119c467cdcaf17'] = 'Gesamt';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_702d061665a3a9bcabeaa07634b89faf'] = 'exportierte Produkte';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_be5d5d37542d75f93a87094459f76678'] = 'und';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_8eddcc44b4d68603564af379deea53ce'] = 'nicht exportierte Produkte (nicht verfügbar)';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_bc02e8f55cf4a9c0faaa8dfefb864043'] = 'Wähle den Shop aus welchen Du anpassen willst';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_298b615220606d42b6ac60269df0d321'] = 'Die Anpassungen werden für den folgenden Shop übernommen: %s';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_aef3662e6419ddaaa0a31df70e3b6557'] = 'Die Anpassungen werden zu der folgenden Gruppe übernommen: %s';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_dd25f68471362f6f5f183d6158d67854'] = 'Die Anpassung wird für alle Shops übernommen';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_c2960ba2a20020a479d73ed5e812c05d'] = 'Produkt Funktion existiert nicht';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_c1069a480848e06782b81b8bea9c0c94'] = 'Kurze Beschreibung';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_a52ab216dd03c49902ff2a66d8c12f36'] = 'Lange Beschreibung';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_3f64b2beede1082fd32ddb0bf11a641f'] = 'Meta Description';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_63d5049791d9d79d86e9a108b0a999ca'] = 'Referenz';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_8284ae5df53e6e7ffc1f2cc67ae68765'] = 'Lieferanten Referenz';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_3225a10b07f1580f10dee4abc3779e6c'] = 'Parameter';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_7791022694bf889f0b72d52bdac04285'] = 'Standard Produkttyp';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_baf15503436fc1258776bc08749a8255'] = 'Beschreibungs-Typ';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_fe8bac2727b81eec04100eddcbf0195c'] = 'Wähle einen Beschreibungs-Typ';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_0ea6b9c133352843b875fc332938b832'] = 'Versandkosten';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_b4e5ad56a90c4a4c6936da3aa74f4e6f'] = 'Versand-Land';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_3284614a26b9eebe62398c0174743691'] = 'Bilder-Typen';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_94b76623a00cd121d7d28a7860896d88'] = 'Wählen Bild-Typ';
+$_MODULE['<{gshoppingflux}prestashop>gshoppingflux_9e2941b3c81256fac10392aaca4ccfde'] = 'Zustand';
