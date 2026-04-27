@@ -1,0 +1,12 @@
+# PS9 ships modules/.htaccess that denies all .php — whitelist cron.php
+# so Plesk-scheduled cron URL access keeps working after upgrades that
+# regenerate the parent file.
+<Files "cron.php">
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</Files>
