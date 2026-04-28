@@ -3161,6 +3161,7 @@ class GShoppingFlux extends Module
             . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux_lc glc ON glc.`id_glang` = ' . $id_lang . ' '
             . 'INNER JOIN ' . _DB_PREFIX_ . 'gshoppingflux_lang gl ON gl.id_gcategory = ps.id_category_default '
             . 'WHERE `p`.`price` >= 0 AND `c`.`active` = 1 AND `gc`.`export` = 1 '
+            . 'AND `p`.`is_virtual` = 0 '
             . 'AND `pl`.`id_lang` = ' . $id_lang . ' AND `gl`.`id_lang` = ' . $id_lang;
 
         // Multishops filter
@@ -3909,7 +3910,6 @@ class GShoppingFlux extends Module
             $xml_googleshopping .= '<g:shipping_width>' . number_format($product['depth'], 2, '.', '') . ' ' . Configuration::get('PS_DIMENSION_UNIT') . '</g:shipping_width>' . "\n";
             $xml_googleshopping .= '<g:shipping_height>' . number_format($product['height'], 2, '.', '') . ' ' . Configuration::get('PS_DIMENSION_UNIT') . '</g:shipping_height>' . "\n";
         }
-        $xml_googleshopping .= '<g:unit_pricing_measure>1 ct</g:unit_pricing_measure>' . "\n";
         $xml_googleshopping .= '</item>' . "\n\n";
 
         if ($combination) {
