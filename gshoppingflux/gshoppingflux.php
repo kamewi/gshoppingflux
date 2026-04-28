@@ -591,7 +591,14 @@ class GShoppingFlux extends Module
         if (defined('PS_PRICE_DISPLAY_PRECISION')) {
             return (int) PS_PRICE_DISPLAY_PRECISION;
         }
-        return (int) Configuration::get('PS_PRICE_DISPLAY_PRECISION', 2);
+        // Note: Configuration::get signature is (key, id_lang, id_shop_group, id_shop, default)
+        // The 5th argument is the default, not the 2nd — so we must check the result
+        // explicitly and fall back to 2 (standard currency precision) when unset.
+        $value = Configuration::get('PS_PRICE_DISPLAY_PRECISION');
+        if ($value === false || $value === null || $value === '') {
+            return 2;
+        }
+        return (int) $value;
     }
 
     /**
