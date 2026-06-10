@@ -9,7 +9,7 @@
  * @package GShoppingFlux
  * @copyright 2014-2025 Google Shopping Flux Contributors
  * @license Apache License 2.0
- * @version 1.7.6
+ * @version 1.7.8
  */
 
 if (!defined('_PS_VERSION_')) {

@@ -54,6 +54,10 @@ Depending on your store and what you want to send to google, you would need to c
 
 ## Changelog
 
+### Version 1.7.8 (2026)
+
+- Fix 404 errors when editing categories on PS9 (Thank you @oxess)
+
 ### Version 1.7.7 (2026)
 
 - Fix price precision falling back to 0 on PS9 (causes 0 EUR rounding) (Thank you @icemansparks)
