@@ -1,0 +1,114 @@
+name: Tag and deploy on push to kamewi-customizations
+
+on:
+  push:
+    branches: [kamewi-customizations]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Tag or SHA to deploy (rollback / manual)'
+        required: true
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create date-based tag
+        id: tag
+        if: github.event_name == 'push'
+        run: |
+          git fetch --tags
+          DATE=$(TZ=Europe/Berlin date +%Y.%m.%d)
+          EXISTING=$(git tag --list "${DATE}" "${DATE}.*" | wc -l)
+          if [ "$EXISTING" -eq 0 ]; then
+            TAG="$DATE"
+          else
+            TAG="${DATE}.${EXISTING}"
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Auto-tag for commit $(git rev-parse --short HEAD)"
+          git push origin "$TAG"
+          echo "ref=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve deploy ref
+        id: ref
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "ref=${{ steps.tag.outputs.ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=${{ inputs.ref }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy via SSH + git checkout
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.NETCUP_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -t rsa,ecdsa,ed25519 "${{ secrets.NETCUP_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "${{ secrets.NETCUP_USER }}@${{ secrets.NETCUP_HOST }}" \
+            "set -e; \
+             cd \$HOME/git/gshoppingflux_prod.git && \
+             git fetch origin --tags --prune && \
+             git --git-dir=\$HOME/git/gshoppingflux_prod.git --work-tree=\$HOME/httpdocs/shop/modules checkout -f ${{ steps.ref.outputs.ref }} && \
+             echo 'Deployed ${{ steps.ref.outputs.ref }} to /httpdocs/shop/modules/gshoppingflux/ (sparse checkout)'"
+
+      - name: Clear PrestaShop cache
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "${{ secrets.NETCUP_USER }}@${{ secrets.NETCUP_HOST }}" \
+            "set -e; \
+             cd \$HOME/httpdocs/shop; \
+             php -d memory_limit=2048M bin/console cache:clear --env=prod --no-warmup; \
+             for d in var/cache/prod/smarty/compile var/cache/prod/smarty/cache; do \
+               if [ -d \"\$d\" ]; then find \"\$d\" -mindepth 1 -delete; fi; \
+             done; \
+             php -d memory_limit=2048M bin/console cache:warmup --env=prod \
+               || php -d memory_limit=4096M bin/console cache:warmup --env=prod; \
+             echo 'Cache cleared and warmed'"
+
+      - name: Build release notes
+        id: notes
+        if: github.event_name == 'push'
+        run: |
+          NEW="${{ steps.ref.outputs.ref }}"
+          PREV=$(git describe --tags --abbrev=0 "${NEW}^" 2>/dev/null || true)
+          {
+            echo "## Changes"
+            echo
+            if [ -n "$PREV" ]; then
+              git log --no-merges --pretty=format:'- %s (%h)' "${PREV}..${NEW}"
+            else
+              git log --no-merges --pretty=format:'- %s (%h)' "${NEW}"
+            fi
+            echo
+            echo
+            if [ -n "$PREV" ]; then
+              echo "**Full Changelog**: ${{ github.server_url }}/${{ github.repository }}/compare/${PREV}...${NEW}"
+            fi
+          } > release_notes.md
+          echo "Built release notes:"; cat release_notes.md
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push'
+        run: |
+          gh release create "${{ steps.ref.outputs.ref }}" --repo "${{ github.repository }}" --notes-file release_notes.md --title "Deploy ${{ steps.ref.outputs.ref }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Deployed \`${{ steps.ref.outputs.ref }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Target: \`${{ secrets.NETCUP_HOST }}:/httpdocs/shop/modules/gshoppingflux/\`" >> "$GITHUB_STEP_SUMMARY"

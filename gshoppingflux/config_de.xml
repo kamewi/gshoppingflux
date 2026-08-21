@@ -2,7 +2,7 @@
 <module>
     <name>gshoppingflux</name>
     <displayName><![CDATA[ Google Shopping Flux]]></displayName>
-    <version><![CDATA[1.7.3]]></version>
+    <version><![CDATA[1.7.8]]></version>
     <description><![CDATA[Exportiere Deine Produkte f&uuml;r das Google Merchant Center &amp; Facebook]]></description>
     <author><![CDATA[Dim00z]]></author>
     <tab><![CDATA[smart_shopping]]></tab>
